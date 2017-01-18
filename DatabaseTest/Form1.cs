@@ -57,8 +57,9 @@ namespace DatabaseTest
             }
             catch(Exception ex)
             {
-                // test to see if this uploads 
-
+                // test to see if this uploads
+               // added new things 
+                    //
                 MessageBox.Show(ex.Message);
             }
         }

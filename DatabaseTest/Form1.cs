@@ -15,6 +15,8 @@ namespace DatabaseTest
     public partial class Form1 : Form
     {
         MySqlConnection conn;
+        MySqlCommand Comm1;
+        MySqlDataAdapter da;
         string connString;
 
         public Form1()
@@ -24,16 +26,39 @@ namespace DatabaseTest
 
         private void connect_button_Click(object sender, EventArgs e)
         {
-            connString = "SERVER= xerographic-debits.000webhostapp.com;PORT=3306;DATABASE=id511580_users;UID=id511580_developer;PASSWORD=fpmanagement";
+            loading_label.Visible = true;
+            connString = "SERVER= 31.220.105.200;PORT=3306;DATABASE=redflixc_FPM;UID=redflixc_heemesh;PASSWORD=heemesh2017";
             try
             {
                 conn = new MySqlConnection();
                 conn.ConnectionString = connString;
                 conn.Open();
-                MessageBox.Show("connection success");
+                loading_label.Visible = false;
+                connected_label.Visible = true;
+                //MessageBox.Show("Connection Success");
             }
             catch(Exception ex)
             {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void search_button_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //String Command = "SELECT  ACCOUNT_ID, TENANT_NAME, TENANT_ADDRESS,PAYEE FROM `FIRST_PROPERTY_DATABASE` WHERE TENANT_MAIL_TYPE = 'Post' and PAYEE = 'owner'";
+                String Command = searchTextbox.Text;
+                Comm1 = new MySqlCommand(Command, conn);
+                da = new MySqlDataAdapter(Comm1);
+                DataTable table = new DataTable();
+                da.Fill(table);
+                dataGridView1.DataSource = new BindingSource(table, null);
+            }
+            catch(Exception ex)
+            {
+                // test to see if this uploads 
+
                 MessageBox.Show(ex.Message);
             }
         }
